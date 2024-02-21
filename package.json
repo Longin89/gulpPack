@@ -1,0 +1,32 @@
+{
+    "name": "gulp-builder",
+    "version": "1.0.0",
+    "description": "My simple gulp-package",
+    "main": "gulpfile.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "html": "node-w3c-validator -f lint -evH -i app/index.html"
+    },
+    "author": "EvanLongin",
+    "license": "ISC",
+    "devDependencies": {
+        "browser-sync": "^3.0.2",
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
+        "gulp-clean": "^0.4.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-file-include": "^2.3.0",
+        "gulp-htmlmin": "^5.0.1",
+        "gulp-imagemin": "^7.1.0",
+        "gulp-newer": "^1.4.0",
+        "gulp-notify": "^4.0.0",
+        "gulp-plumber": "^1.2.1",
+        "gulp-sass": "^5.1.0",
+        "gulp-sourcemaps": "^3.0.0",
+        "gulp-ttf2woff2": "^4.0.1",
+        "gulp-uglify-es": "^3.0.0",
+        "gulp-webp": "^4.0.1",
+        "node-w3c-validator": "^2.0.2",
+        "sass": "^1.71.0"
+    }
+}
