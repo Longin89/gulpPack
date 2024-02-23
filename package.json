@@ -9,9 +9,11 @@
     "author": "EvanLongin",
     "license": "ISC",
     "devDependencies": {
+        "@babel/preset-env": "^7.23.9",
         "browser-sync": "^3.0.2",
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^7.0.1",
+        "gulp-babel": "^8.0.0",
         "gulp-clean": "^0.4.0",
         "gulp-concat": "^2.6.1",
         "gulp-file-include": "^2.3.0",

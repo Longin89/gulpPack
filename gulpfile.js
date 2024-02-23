@@ -1,5 +1,6 @@
     /*  INITIALIZING OF CONSTS  */
     const { src, dest, watch, parallel, series } = require('gulp');
+    const babel = require('gulp-babel');
     const scss = require('gulp-sass')(require('sass'));
     const concat = require('gulp-concat');
     const uglify = require('gulp-uglify-es').default;
@@ -69,8 +70,13 @@
                 'dev/js/components/*.js',
                 'dev/js/main.js'
             ])
-            .pipe(concat('main.min.js'))
+            .pipe(sourcemaps.init())
+            .pipe(babel({
+                presets: ['@babel/env']
+            }))
             .pipe(uglify())
+            .pipe(concat('main.min.js'))
+            .pipe(sourcemaps.write())
             .pipe(dest('dev/js'))
             .pipe(browserSync.stream())
     }
