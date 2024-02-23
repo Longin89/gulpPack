@@ -1,0 +1,29 @@
+    /*  MIXIN FO FONT ATTACHING  */
+@mixin font-face($font-family, $url, $weight, $style) {
+    @font-face {
+        font-family: "#{$font-family}";
+        src: url('../fonts/#{$url}.woff2') format("woff2");
+        font-weight: #{$weight};
+        font-display: swap;
+        font-style: $style;
+    }
+}
+
+
+    /*  MIXIN FOR FONT DECORATING  */
+@mixin font-patterns($color, $font-family, $size, $style, $weight, $lh) {
+    color: $color;
+    font-family: "#{$font-family}";
+    font-size: $size;
+    font-style: $style;
+    font-weight: #{$weight};
+    line-height: $lh;
+}
+
+
+    /*  MIXIN FOR GRADIENT  */
+@mixin gradient($background, $clip, $fill-color) {
+    background: $background;
+    background-clip: $clip;
+    -webkit-text-fill-color: $fill-color;
+}

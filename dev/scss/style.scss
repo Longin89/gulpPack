@@ -1,0 +1,13 @@
+    /* IMPORT ALL STYLES AND MIXINS HERE  */
+    @import "mixins.scss";
+    @include font-face('Ubuntu-Regular', "../fonts/Ubuntu-Regular", 400, normal);
+    
+body {
+    @include gradient(linear-gradient(270deg, #ec4484 -28.49%, #8871a7 83.02%), text, black);
+}
+
+h1 {
+    @include font-patterns(black, 'Ubuntu-Regular', 6rem, normal, 400, 130%);
+    text-align: center;
+}
+
