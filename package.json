@@ -1,7 +1,7 @@
 {
     "name": "gulppack",
     "version": "1.0.0",
-    "description": "My simple gulp-package",
+    "description": "Simple gulp-package for web-layout",
     "main": "gulpfile.js",
     "scripts": {
         "html": "node-w3c-validator -f lint -evH -i ./dev/*.html"
@@ -11,6 +11,7 @@
     "devDependencies": {
         "@babel/preset-env": "^7.23.9",
         "browser-sync": "^3.0.2",
+        "css-loader": "^6.10.0",
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^7.0.1",
         "gulp-babel": "^8.0.0",
@@ -26,11 +27,14 @@
         "gulp-sourcemaps": "^3.0.0",
         "gulp-svg-sprite": "^2.0.3",
         "gulp-ttf2woff2": "^4.0.1",
-        "gulp-uglify-es": "^3.0.0",
         "gulp-webp": "^4.0.1",
+        "gulp-webp-html": "^1.0.2",
+        "gulp-webpcss": "^1.1.1",
         "gulp-zip": "^5.1.0",
         "node-w3c-validator": "^2.0.2",
-        "sass": "^1.71.0"
+        "sass": "^1.71.0",
+        "style-loader": "^3.3.4",
+        "webpack-stream": "^7.0.0"
     },
     "dependencies": {
         "swiper": "^10.3.1"

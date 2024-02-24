@@ -1,9 +1,10 @@
     /*  INITIALIZING OF CONSTS  */
     const { src, dest, watch, parallel, series } = require('gulp');
     const babel = require('gulp-babel');
-    const scss = require('gulp-sass')(require('sass'));
+    const sass = require('sass');
+    const gulpSass = require('gulp-sass');
+    const mainSass = gulpSass(sass);
     const concat = require('gulp-concat');
-    const uglify = require('gulp-uglify-es').default;
     const browserSync = require('browser-sync').create();
     const autoprefixer = require('gulp-autoprefixer');
     const clean = require('gulp-clean');
@@ -17,6 +18,8 @@
     const plumber = require('gulp-plumber');
     const sourcemaps = require('gulp-sourcemaps');
     const htmlmin = require('gulp-htmlmin');
+    const webpHTML = require('gulp-webp-html');
+    const webpack = require('webpack-stream');
     const zip = require('gulp-zip');
 
 
@@ -25,6 +28,7 @@
     function pages() {
         return src('dev/html/*.html')
             .pipe(fileinclude({ prefix: '@@' }))
+            .pipe(webpHTML())
             .pipe(dest('dev'))
             .pipe(htmlmin({ collapseWhitespace: true }))
             .pipe(dest('dev'))
@@ -34,10 +38,10 @@
 
     /*  SCSS COMPILE/MINIFY/MAP FUNCTIONS(SWIPER IS OFF BY DEFAULT)  */
 
-    function styles() {
+    function stylesDev() {
         return src([
                 //'node_modules/swiper/swiper-bundle.css',
-                'dev/scss/components/normalize.css',
+                'dev/scss/components/_normalize.css',
                 'dev/scss/components/*.scss',
                 'dev/scss/style.scss'
             ])
@@ -51,14 +55,24 @@
                     }
                 })
             }))
+            .pipe(mainSass())
             .pipe(autoprefixer({
-                overrideBrowserlist: ['last 5 version']
-            }))
+                cascade: false,
+                grid: true,
+                overrideBrowserslist: ["last 5 versions"]
+              }))
             .pipe(concat('style.min.css'))
-            .pipe(scss({ outputStyle: 'compressed' }))
-            .pipe(sourcemaps.write())
+            .pipe(sourcemaps.write('/maps'))
             .pipe(dest('dev/css'))
             .pipe(browserSync.stream())
+    }
+
+    function stylesDist() {
+        return src([
+            'dev/css/style.min.css',
+        ])
+            .pipe(mainSass({ outputStyle: 'compressed' }))
+            .pipe(dest('dev/css'))
     }
 
 
@@ -71,12 +85,20 @@
                 'dev/js/main.js'
             ])
             .pipe(sourcemaps.init())
+            .pipe(plumber({
+                errorHandler: notify.onError(function(err) {
+                    return {
+                        title: 'JS error',
+                        sound: false,
+                        message: err.message
+                    }
+                })
+            }))
             .pipe(babel({
                 presets: ['@babel/env']
             }))
-            .pipe(uglify())
-            .pipe(concat('main.min.js'))
-            .pipe(sourcemaps.write())
+            .pipe(webpack(require('./webpack.config.js')))
+            .pipe(sourcemaps.write('./maps'))
             .pipe(dest('dev/js'))
             .pipe(browserSync.stream())
     }
@@ -99,12 +121,10 @@
             .pipe(src('dev/images/src/*.*'))
             .pipe(newer('dev/images'))
             .pipe(webp())
-
-        .pipe(src('dev/images/src/*.*'))
+            .pipe(src('dev/images/src/*.*'))
             .pipe(newer('dev/images'))
             .pipe(imagemin())
-
-        .pipe(dest('dev/images'))
+            .pipe(dest('dev/images'))
     }
 
 
@@ -132,7 +152,7 @@
                 baseDir: 'dev/'
             }
         });
-        watch(['dev/scss/components/*.scss', 'dev/scss/style.scss'], styles)
+        watch(['dev/scss/**/*.scss'], stylesDev)
         watch(['dev/images/src'], images)
         watch(['dev/images/src/svg'], sprite)
         watch(['dev/fonts/src/*.*'], fonts)
@@ -157,7 +177,7 @@
                 'dev/css/style.min.css',
                 'dev/images/*.*',
                 'dev/fonts/*.*',
-                'dev/js/main.min.js',
+                'dev/js/main.bundle.js',
                 'dev/*.html'
             ], { base: 'dev' })
             .pipe(dest('dist'))
@@ -174,15 +194,11 @@
 
 
     /*  EXPORT EVERYTHING  */
-    
-    exports.styles = styles;
-    exports.scripts = scripts;
-    exports.watcher = watcher;
-    exports.images = images;
-    exports.sprite = sprite;
-    exports.fonts = fonts;
-    exports.pages = pages;
-    exports.zip = zipfiles;
+    module.exports = {fonts, zipfiles};
+    module.exports = {
+        "default":
+        parallel(pages, stylesDev, scripts, images, sprite, watcher),
 
-    exports.build = series(cleanapp, compile);
-    exports.default = parallel(pages, styles, scripts, watcher);
+        "build":
+        series(cleanapp, stylesDist, compile)
+    };

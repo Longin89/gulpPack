@@ -1,5 +1,5 @@
     /* IMPORT ALL STYLES AND MIXINS HERE  */
-    @import "mixins.scss";
+    @import "./_mixins.scss";
     @include font-face('Ubuntu-Regular', "../fonts/Ubuntu-Regular", 400, normal);
     
 body {
@@ -10,4 +10,3 @@ h1 {
     @include font-patterns(black, 'Ubuntu-Regular', 6rem, normal, 400, 130%);
     text-align: center;
 }
-
