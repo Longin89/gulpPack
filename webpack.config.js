@@ -1,7 +1,7 @@
 const config = {
     mode: 'production',
     entry: {
-        main: ['./dev/js/components/vars.js', './dev/js/components/functions.js', './dev/js/main.js']
+        main: ['./dev/js/components/_vars.js', './dev/js/components/_functions.js', './dev/js/main.js']
     },
     output: {
         filename: 'main.bundle.js'
