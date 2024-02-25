@@ -1,0 +1,67 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+.page {
+    //html
+    height: 100%;
+    font-size: 16px;
+    font-family: 'Poppins';
+    font-weight: 400;
+    -webkit-text-size-adjust: 100%;
+}
+
+.page__body {
+    //body
+    margin: 0;
+    min-width: 320px;
+    min-height: 100%;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+	list-style: none;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 10px;
+    max-width: 1230px; //ширина всего макета
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+}
+
+/* Down footer */
+
+html,
+body {
+    height: 100%;
+}
+
+.wrapper {
+    overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 1 auto;
+}

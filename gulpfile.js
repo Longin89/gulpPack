@@ -1,7 +1,7 @@
     /****************************/
     /*  INITIALIZING OF CONSTS  */
     /****************************/
-
+    
     const { src, dest, watch, parallel, series } = require('gulp');
     const sass = require('sass');
     const autoprefixer = require('gulp-autoprefixer');
@@ -20,32 +20,35 @@
     const sourcemaps = require('gulp-sourcemaps');
     const svgsprite = require('gulp-svg-sprite');
     const ttf2woff2 = require('gulp-ttf2woff2');
+    const uglify = require('gulp-uglify-es').default;
     const webp = require('gulp-webp');
     const webpHTML = require('gulp-webp-html');
     const webpack = require('webpack-stream');
     const zip = require('gulp-zip');
 
 
+
+
     /************************/
     /*  INCLUDE HTML PAGES  */
     /************************/
 
-    function html() {
+    const html = () => {
         return src('dev/html/*.html')
             .pipe(fileinclude({ prefix: '@@' }))
             .pipe(webpHTML())
-            .pipe(dest('dev'))
-            .pipe(htmlmin({ collapseWhitespace: true }))
             .pipe(dest('dev'))
             .pipe(browserSync.stream())
     }
 
 
+
+
     /*****************************************************************/
-    /*  SCSS COMPILE/MINIFY/MAP FUNCTIONS(SWIPER IS OFF BY DEFAULT)  */
+    /*  SCSS COMPILE/CONCAT/MAP FUNCTIONS(SWIPER IS OFF BY DEFAULT)  */
     /*****************************************************************/
 
-    function styles() {
+    const styles = () => {
         return src([
                 //'node_modules/swiper/swiper-bundle.css',
                 'dev/scss/components/_normalize.css',
@@ -69,25 +72,19 @@
                 overrideBrowserslist: ["last 5 versions"]
               }))
             .pipe(concat('style.min.css'))
-            .pipe(sourcemaps.write('/maps'))
+            .pipe(sourcemaps.write('./maps'))
             .pipe(dest('dev/css'))
             .pipe(browserSync.stream())
     }
 
-    function stylesminify() {
-        return src([
-            'dev/css/style.min.css',
-        ])
-            .pipe(mainSass({ outputStyle: 'compressed' }))
-            .pipe(dest('dev/css'))
-    }
+
 
 
     /******************************************************/
     /*  JS-FILES CONCAT/MINIFY(SWIPER IS OFF BY DEFAULT)  */
     /******************************************************/
 
-    function scripts() {
+    const scripts = () => {
         return src([
                 //'node_modules/swiper/swiper-bundle.js',
                 'dev/js/components/*.js',
@@ -113,23 +110,13 @@
     }
 
 
-    /***********************************/
-    /*  TTF TO WOFF2 FONTS CONVERTING  */
-    /***********************************/
-
-    function fonts() {
-        return src('dev/fonts/src/*.*')
-            .pipe(src('dev/fonts/*.ttf'))
-            .pipe(ttf2woff2())
-            .pipe(dest('dev/fonts'))
-    }
 
 
     /*************************************/
     /*  IMGS MINIFY/CONVERTING/UPDATING  */
     /*************************************/
 
-    function images() {
+    const images = () => {
         return src(['dev/images/src/*.*', '!dev/images/src/*.svg'])
             .pipe(src('dev/images/src/*.*'))
             .pipe(newer('dev/images'))
@@ -141,11 +128,13 @@
     }
 
 
+
+
     /****************************/
     /*  CONVERTING SVG-SPRITES  */
     /****************************/
 
-    function sprite() {
+    const sprite = () => {
         return src('dev/images/src/svg/*.svg')
             .pipe(svgsprite({
                 mode: {
@@ -159,11 +148,40 @@
     }
 
 
+
+
+    /***********************************/
+    /*  TTF TO WOFF2 FONTS CONVERTING  */
+    /***********************************/
+
+    const fonts = () => {
+        return src('dev/fonts/src/*.*')
+            .pipe(src('dev/fonts/*.ttf'))
+            .pipe(ttf2woff2())
+            .pipe(dest('dev/fonts'))
+    }
+
+
+
+
+    /*************************/
+    /*  ARCHIVE THE PROJECT  */
+    /*************************/
+
+    const zipfiles = () => {
+        return src('dist/**')
+            .pipe(zip('dist.zip'))
+            .pipe(dest('./'))
+    }
+
+
+
+
     /****************************************/
     /*  WATCHING FILES MODIFY & BROWSERSYNC */
     /****************************************/
 
-    function watcher() {
+    const watcher = () => {
         browserSync.init({
             server: {
                 baseDir: 'dev/'
@@ -179,24 +197,30 @@
     }
 
 
+
+
     /**************************************/
     /*  CLEAN 'DIST' FOLDER BEFORE BUILD  */
     /**************************************/
 
-    function cleanapp() {
+    const cleanapp = () => {
         return src('dist')
             .pipe(clean())
     }
 
 
-    /*******************/
-    /*  BUILD PROJECT  */
-    /*******************/
 
-    function compile() {
+
+    /****************************/
+    /*  BUILD PROJECT FOR PROD  */
+    /****************************/
+
+    const compileProd = () => {
         return src([
                 'dev/css/style.min.css',
-                'dev/images/*.*',
+                'dev/images/*.webp',
+                'dev/images/*.png',
+                'dev/images/*.jpeg',
                 'dev/fonts/*.*',
                 'dev/js/main.bundle.js',
                 'dev/*.html'
@@ -205,30 +229,21 @@
     }
 
 
-    /*************************/
-    /*  ARCHIVE THE PROJECT  */
-    /*************************/
-
-    function zipfiles() {
-        return src('dist/**')
-            .pipe(zip('dist.zip'))
-            .pipe(dest('./'))
-    }
 
 
     /*******************************/
     /*  BUILD PROJECT FOR BACKEND  */
     /*******************************/
     
-    function htmlback() {
+    const htmlback = () => {
         return src('dev/html/*.html')
             .pipe(fileinclude({ prefix: '@@' }))
             .pipe(webpHTML())
-            .pipe(dest('dev'))
+            .pipe(dest('dist'))
     }
 
 
-    function stylesback() {
+    const stylesback = () => {
         return src([
                 //'node_modules/swiper/swiper-bundle.css',
                 'dev/scss/components/_normalize.css',
@@ -242,7 +257,7 @@
                 overrideBrowserslist: ["last 5 versions"]
               }))
             .pipe(concat('style.min.css'))
-            .pipe(dest('dev/css'))
+            .pipe(dest('dist/css'))
     }
 
 
@@ -252,12 +267,67 @@
                 'dev/js/components/*.js',
                 'dev/js/main.js'
             ])
-            .pipe(concat('main.bundle.js'))
             .pipe(babel({
                 presets: ['@babel/env']
             }))
+            .pipe(dest('dist/js'))
+    }
+
+
+    const compileBack = () => {
+        return src([
+                'dev/images/*.webp',
+                'dev/images/*.png',
+                'dev/images/*.jpeg',
+                'dev/fonts/*.*',
+            ], { base: 'dev' })
+            .pipe(dest('dist'))
+    }
+
+
+
+
+    /******************************/
+    /*  MINIFYING FILES FOR PROD  */
+    /******************************/
+
+    const htmlminify = () => {
+        return src('dev/html/*.html')
+            .pipe(fileinclude({ prefix: '@@' }))
+            .pipe(webpHTML())
+            .pipe(htmlmin({ collapseWhitespace: true }))
+            .pipe(dest('dev'))
+    }
+
+
+    const stylesminify = () => {
+        return src([
+            //'node_modules/swiper/swiper-bundle.css',
+            'dev/scss/components/_normalize.css',
+            'dev/scss/components/*.scss',
+            'dev/scss/style.scss'
+        ])
+            .pipe(mainSass({ outputStyle: 'compressed' }))
+            .pipe(concat('style.min.css'))
+            .pipe(dest('dev/css'))
+    }
+
+
+    const scriptsminify = () => {
+        return src([
+                //'node_modules/swiper/swiper-bundle.js',
+                'dev/js/components/*.js',
+                'dev/js/main.js'
+            ])
+            .pipe(webpack(require('./webpack.config.js')))
+            .pipe(babel({
+                presets: ['@babel/env']
+            }))
+            .pipe(uglify())
             .pipe(dest('dev/js'))
     }
+
+
 
 
     /********************/
@@ -267,6 +337,6 @@
     module.exports = {fonts, zipfiles};
     module.exports = {
         "default":  parallel(html, styles, scripts, images, sprite, watcher),
-        "build":    series(cleanapp, html, stylesminify, scripts, compile),
-        "backend":  series(cleanapp, htmlback, stylesback, scriptsback, compile)
+        "build":    series(cleanapp, htmlminify, stylesminify, scriptsminify, compileProd),
+        "backend":  series(cleanapp, htmlback, stylesback, scriptsback, compileBack)
     };
