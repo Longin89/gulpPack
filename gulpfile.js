@@ -219,7 +219,8 @@
                 './dev/images/*.jpeg',
                 './dev/fonts/*.*',
                 './dev/js/main.bundle.js',
-                './dev/*.html'
+                './dev/*.html',
+                './dev/media/*.mp3'
             ], { base: 'dev' })
             .pipe(dest('./dist'))
     }
@@ -249,7 +250,16 @@
             .pipe(autoprefixer({
                 cascade: false,
                 grid: true,
-                overrideBrowserslist: ["last 5 versions"]
+                overrideBrowserslist: ["last 8 versions"],
+                browsers: [
+                    'Android >= 4',
+                    'Chrome >= 20',
+                    'Firefox >= 24',
+                    'Explorer >= 11',
+                    'iOS >= 6',
+                    'Opera >= 12',
+                    'Safari >= 6',
+                  ],
             }))
             .pipe(concat('style.min.css'))
             .pipe(dest('./dist/css'))
@@ -266,13 +276,14 @@
     }
 
 
-    const imagesBack = () => {
+    const compileBack = () => {
         return src([
                 './dev/images/*.webp',
                 './dev/images/*.png',
                 './dev/images/*.jpeg',
                 './dev/images/*.ico',
                 './dev/fonts/*.*',
+                './dev/media/*.mp3'
             ], { base: 'dev' })
             .pipe(dest('./dist'))
     }
@@ -328,5 +339,5 @@
     module.exports = {
         "default": parallel(html, styles, scripts, images, sprite, watcher),
         "build": series(cleanapp, htmlminify, stylesminify, scriptsminify, compileProd),
-        "backend": series(cleanapp, htmlback, stylesback, scriptsback, imagesBack)
+        "backend": series(cleanapp, htmlback, stylesback, scriptsback, compileBack)
     };

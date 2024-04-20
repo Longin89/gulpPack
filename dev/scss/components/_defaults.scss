@@ -35,13 +35,14 @@ a {
 }
 
 ul {
+    padding: 0;
 	list-style: none;
 }
 
 .container {
     margin: 0 auto;
     padding: 0 10px;
-    max-width: 1230px; //ширина всего макета
+    max-width: 1230px; //ширина всего макета, меняется индивидуально с учетом отступа в 10px выше
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
