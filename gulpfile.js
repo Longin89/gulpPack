@@ -3,6 +3,7 @@
     /****************************/
 
     const { src, dest, watch, parallel, series } = require('gulp');
+    const { pipeline } = require('stream');
     const sass = require('sass');
     const autoprefixer = require('gulp-autoprefixer');
     const babel = require('gulp-babel');
@@ -35,12 +36,15 @@
     /*  INCLUDE HTML PAGES  */
     /************************/
 
-    const html = () => {
-        return src('./dev/html/*.html')
-            .pipe(fileinclude({ prefix: '@@' }))
-            .pipe(webpHTML())
-            .pipe(dest('./dev'))
-            .pipe(browserSync.stream())
+    const html = (callback) => {
+        return pipeline(
+            src('./dev/html/*.html'),
+            fileinclude({ prefix: '@@' }),
+            webpHTML(),
+            dest('./dev'),
+            browserSync.stream(),
+            callback
+        );
     }
 
 
@@ -50,14 +54,15 @@
     /*  SCSS COMPILE/CONCAT/MAP FUNCTIONS(SPLIDE IS OFF BY DEFAULT)  */
     /*****************************************************************/
 
-    const styles = () => {
-        return src([
+    const styles = (callback) => {
+        return pipeline(
+            src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
-                './dev/scss/components/*.scss',
+                //'./node_modules/bootstrap/scss/bootstrap.scss',
                 './dev/scss/style.scss'
-            ])
-            .pipe(sourcemaps.init())
-            .pipe(plumber({
+            ]),
+            sourcemaps.init(),
+            plumber({
                 errorHandler: notify.onError(function(err) {
                     return {
                         title: 'Styles error',
@@ -65,17 +70,19 @@
                         message: err.message
                     }
                 })
-            }))
-            .pipe(mainSass())
-            .pipe(autoprefixer({
+            }),
+            mainSass(),
+            autoprefixer({
                 cascade: false,
                 grid: true,
                 overrideBrowserslist: ["last 5 versions"]
-            }))
-            .pipe(concat('style.min.css'))
-            .pipe(sourcemaps.write('./'))
-            .pipe(dest('./dev/css'))
-            .pipe(browserSync.stream())
+            }),
+            concat('style.min.css'),
+            sourcemaps.write('./'),
+            dest('./dev/css'),
+            browserSync.stream(),
+            callback
+        );
     }
 
 
@@ -85,12 +92,13 @@
     /*  JS-FILES CONCAT/MINIFY(SPLIDE IS OFF BY DEFAULT)  */
     /******************************************************/
 
-    const scripts = () => {
-        return src([
+    const scripts = (callback) => {
+        return pipeline(
+        src([
                 //'./node_modules/@splidejs/splide/dist/js/splide.js',
                 './dev/js/components/*.js',
-            ])
-            .pipe(plumber({
+            ]),
+            plumber({
                 errorHandler: notify.onError(function(err) {
                     return {
                         title: 'JS error',
@@ -98,10 +106,12 @@
                         message: err.message
                     }
                 })
-            }))
-            .pipe(webpackstream(require('./webpack.config.js')[1], webpack))
-            .pipe(dest('./dev/js'))
-            .pipe(browserSync.stream())
+            }),
+            webpackstream(require('./webpack.config.js')[1], webpack),
+            dest('./dev/js'),
+            (browserSync.stream()),
+            callback
+        );
     }
 
 
@@ -111,15 +121,18 @@
     /*  IMGS MINIFY/CONVERTING/UPDATING  */
     /*************************************/
 
-    const images = () => {
-        return src(['./dev/images/src/*.*', '!dev/images/src/*.svg'])
-            .pipe(src('./dev/images/src/*.*'))
-            .pipe(newer('./dev/images'))
-            .pipe(webp())
-            .pipe(src('./dev/images/src/*.*'))
-            .pipe(newer('./dev/images'))
-            .pipe(imagemin())
-            .pipe(dest('./dev/images'))
+    const images = (callback) => {
+        return pipeline(
+        src(['./dev/images/src/*.*', '!dev/images/src/*.svg']),
+            src('./dev/images/src/*.*'),
+            newer('./dev/images'),
+            webp(),
+            src('./dev/images/src/*.*'),
+            newer('./dev/images'),
+            imagemin(),
+            dest('./dev/images'),
+            callback
+        );
     }
 
 
@@ -129,17 +142,20 @@
     /*  CONVERTING SVG-SPRITES  */
     /****************************/
 
-    const sprite = () => {
-        return src('./dev/images/src/svg/*.svg')
-            .pipe(svgsprite({
+    const sprite = (callback) => {
+        return pipeline(
+        src('./dev/images/src/svg/*.svg'),
+            svgsprite({
                 mode: {
                     stack: {
                         sprite: '../sprite.svg',
                         example: true
                     }
                 }
-            }))
-            .pipe(dest('./dev/images/svg_out'))
+            }),
+            dest('./dev/images/svg_out'),
+            callback
+        );
     }
 
 
@@ -149,11 +165,14 @@
     /*  TTF TO WOFF2 FONTS CONVERTING  */
     /***********************************/
 
-    const fonts = () => {
-        return src('./dev/fonts/src/*.*')
-            .pipe(src('./dev/fonts/*.ttf'))
-            .pipe(ttf2woff2())
-            .pipe(dest('./dev/fonts'))
+    const fonts = (callback) => {
+        return pipeline(
+        src('./dev/fonts/src/*.*'),
+            src('./dev/fonts/*.ttf'),
+            ttf2woff2(),
+            dest('./dev/fonts'),
+            callback
+        );
     }
 
 
@@ -163,10 +182,13 @@
     /*  ARCHIVE THE PROJECT  */
     /*************************/
 
-    const zipfiles = () => {
-        return src('./dist/**')
-            .pipe(zip('dist.zip'))
-            .pipe(dest('./'))
+    const zipfiles = (callback) => {
+        return pipeline(
+            src('./dist/**'),
+            zip('dist.zip'),
+            dest('./'),
+            callback
+        );
     }
 
 
@@ -198,9 +220,12 @@
     /*  CLEAN 'DIST' FOLDER BEFORE BUILD  */
     /**************************************/
 
-    const cleanapp = () => {
-        return src('./dist/*')
-            .pipe(gulpif(fs.existsSync('./dist'), clean()))
+    const cleanapp = (callback) => {
+        return pipeline(
+        src('./dist/*'),
+            gulpif(fs.existsSync('./dist'), clean()),
+            callback
+        );
     }
 
 
@@ -210,8 +235,9 @@
     /*  BUILD PROJECT FOR PROD  */
     /****************************/
 
-    const compileProd = () => {
-        return src([
+    const compileProd = (callback) => {
+        return pipeline(
+        src([
                 './dev/css/style.min.css',
                 './dev/images/favicon.ico',
                 './dev/images/*.webp',
@@ -221,8 +247,10 @@
                 './dev/js/main.bundle.js',
                 './dev/*.html',
                 './dev/media/*.mp3'
-            ], { base: 'dev' })
-            .pipe(dest('./dist'))
+            ], { base: 'dev' }),
+            dest('./dist'),
+            callback
+        );
     }
 
 
@@ -232,22 +260,26 @@
     /*  BUILD PROJECT FOR BACKEND  */
     /*******************************/
 
-    const htmlback = () => {
-        return src('./dev/html/*.html')
-            .pipe(fileinclude({ prefix: '@@' }))
-            .pipe(webpHTML())
-            .pipe(dest('./dist'))
+    const htmlback = (callback) => {
+        return pipeline(
+        src('./dev/html/*.html'),
+            fileinclude({ prefix: '@@' }),
+            webpHTML(),
+            dest('./dist'),
+            callback
+        );
     }
 
 
-    const stylesback = () => {
-        return src([
+    const stylesback = (callback) => {
+        return pipeline(
+        src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
-                './dev/scss/components/*.scss',
+                //'./node_modules/bootstrap/scss/bootstrap.scss',
                 './dev/scss/style.scss'
-            ])
-            .pipe(mainSass())
-            .pipe(autoprefixer({
+            ]),
+            mainSass(),
+            autoprefixer({
                 cascade: false,
                 grid: true,
                 overrideBrowserslist: ["last 8 versions"],
@@ -260,32 +292,40 @@
                     'Opera >= 12',
                     'Safari >= 6',
                   ],
-            }))
-            .pipe(concat('style.min.css'))
-            .pipe(dest('./dist/css'))
+            }),
+            concat('style.min.css'),
+            dest('./dist/css'),
+            callback
+        );
     }
 
 
-    const scriptsback = () => {
-        return src([
+    const scriptsback = (callback) => {
+        return pipeline(
+        src([
                 //'./node_modules/@splidejs/splide/dist/js/splide.js',
                 './dev/js/components/*.js'
-            ])
-            .pipe(concat('main.bundle.js'))
-            .pipe(dest('./dist/js'))
+            ]),
+            concat('main.bundle.js'),
+            dest('./dist/js'),
+            callback
+        );
     }
 
 
-    const compileBack = () => {
-        return src([
+    const compileBack = (callback) => {
+        return pipeline(
+        src([
                 './dev/images/*.webp',
                 './dev/images/*.png',
                 './dev/images/*.jpeg',
                 './dev/images/*.ico',
                 './dev/fonts/*.*',
                 './dev/media/*.mp3'
-            ], { base: 'dev' })
-            .pipe(dest('./dist'))
+            ], { base: 'dev' }),
+            dest('./dist'),
+            callback
+        );
     }
 
 
@@ -295,37 +335,46 @@
     /*  MINIFYING FILES FOR PROD  */
     /******************************/
 
-    const htmlminify = () => {
-        return src('./dev/html/*.html')
-            .pipe(fileinclude({ prefix: '@@' }))
-            .pipe(webpHTML())
-            .pipe(htmlmin({ collapseWhitespace: true }))
-            .pipe(dest('./dev'))
+    const htmlminify = (callback) => {
+        return pipeline(
+        src('./dev/html/*.html'),
+            fileinclude({ prefix: '@@' }),
+            webpHTML(),
+            htmlmin({ collapseWhitespace: true }),
+            dest('./dev'),
+            callback
+        )
     }
 
 
-    const stylesminify = () => {
-        return src([
+    const stylesminify = (callback) => {
+        return pipeline(
+        src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
-                './dev/scss/components/*.scss',
+                //'./node_modules/bootstrap/scss/bootstrap.scss',
                 './dev/scss/style.scss'
-            ])
-            .pipe(mainSass({ outputStyle: 'compressed' }))
-            .pipe(concat('style.min.css'))
-            .pipe(dest('./dev/css'))
+            ]),
+            mainSass({ outputStyle: 'compressed' }),
+            concat('style.min.css'),
+            dest('./dev/css'),
+            callback
+        );
     }
 
 
-    const scriptsminify = () => {
-        return src([
+    const scriptsminify = (callback) => {
+        return pipeline(
+        src([
                 //'./node_modules/@splidejs/splide/dist/js/splide.js',
                 './dev/js/components/*.js',
-            ])
-            .pipe(babel({
+            ]),
+            babel({
                 presets: ['@babel/env']
-            }))
-            .pipe(webpackstream(require('./webpack.config.js')[0], webpack))
-            .pipe(dest('./dev/js'))
+            }),
+            webpackstream(require('./webpack.config.js')[0], webpack),
+            dest('./dev/js'),
+            callback
+        );
     }
 
 
@@ -335,9 +384,10 @@
     /*  EXPORT MODULES  */
     /********************/
 
-    module.exports = { fonts, zipfiles };
     module.exports = {
         "default": parallel(html, styles, scripts, images, sprite, watcher),
         "build": series(cleanapp, htmlminify, stylesminify, scriptsminify, compileProd),
-        "backend": series(cleanapp, htmlback, stylesback, scriptsback, compileBack)
+        "backend": series(cleanapp, htmlback, stylesback, scriptsback, compileBack),
+        "fonts": series(fonts),
+        "zip": series(zipfiles)
     };

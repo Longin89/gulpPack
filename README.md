@@ -1,6 +1,8 @@
 ![gulp logo](gulp.png)
-# GulpPack by EvanLongin version 1.3!
-##### Обновление до версии 1.3: добавлено обнуление отступов некоторых элементов, папка media для медиафайлов (mp3), а так-же описание на английском языке ([English description](#table-of-contents))
+# GulpPack by EvanLongin version 1.4!
+##### Обновление до версии 1.4: Переезд на pipeline,исправление мелких ошибок, добавление опционального пакета Bootstrap
+[English description](#table-of-contents)
+
 
 ## Оглавление
 1. [Структура папок](#структура-папок)
@@ -9,10 +11,11 @@
 4. [Работа с HTML](#работа-с-html)
 5. [Работа с (S)CSS](#работа-с-scss)
 6. [Работа с JavaScript](#работа-с-javascript)
-6. [Работа с изображениями (кроме SVG)](#работа-с-изображениями-кроме-svg)
-7. [Работа с SVG](#работа-с-svg)
-8. [Работа со шрифтами](#работа-со-шрифтами)
-9. [Splide js](#splide-js)
+7. [Работа с изображениями (кроме SVG)](#работа-с-изображениями-кроме-svg)
+8. [Работа с SVG](#работа-с-svg)
+9. [Работа со шрифтами](#работа-со-шрифтами)
+10. [Splide js](#splide-js)
+11. [Bootstrap](#bootstrap)
 
 ## Структура папок
 Проект имеет структуру вида:
@@ -48,9 +51,9 @@
 
 ```gulp backend``` (**тестовая функция**) - запуск сборки в режиме backend. В этом режиме сборка из папки **dev/** в папку **dist/** с конкатенированными файлами стилей, html и js. Минификация к файлам не применяется, изображения оптимизируются.
 
-```fonts``` - конвертация шрифтов из ttf в woff2. Исходники шрифтов следует положить в папку **dev/fonts/src**. После выполнения команды искомые шрифты появятся в папке **dev/fonts**
+```gulp fonts``` - конвертация шрифтов из ttf в woff2. Исходники шрифтов следует положить в папку **dev/fonts/src**. После выполнения команды искомые шрифты появятся в папке **dev/fonts**
 
-```zipfiles``` - архивация папки **dist/**. Одноименный архив сохраняется в корне проекта.
+```gulp zip``` - архивация папки **dist/**. Одноименный архив сохраняется в корне проекта.
 
 ```npm run html``` - скрипт проверки html-файлов на W3C-валидаторе. Проверяются все файлы, находящиеся в корне папки **dev/**.
 
@@ -110,15 +113,22 @@
 С помощью плагина *[gulp-ttf2woff2](https://www.npmjs.com/package/gulp-ttf2woff2)* в сборке реализована возможность конвертации шрифтов из ttf в woff2 (описана [выше](#команды-запуска-сборки-и-npm-скриптов)). Рекомендуется подготавливать шрифты заранее.
 
 ## Splide JS
-В последней версии сборки для реализации слайдера Swiper был заменен на *[Splide JS](https://splidejs.com/)*, т.к. на мой взгляд последний работает гораздо стабильнее. По умолчанию js и css-файлы слайдера выключены в сборке, для их включения раскомментируйте соответствующие строки в файлах **gulpfile.js** и **webpack.config.js**.
+Для реализации слайдера первоначальный Swiper был заменен на *[Splide JS](https://splidejs.com/)*, т.к. на мой взгляд последний работает гораздо стабильнее. По умолчанию js и css-файлы слайдера выключены в сборке, для их включения раскомментируйте соответствующие строки в файлах **gulpfile.js** и **webpack.config.js**.
+
+## Bootstrap
+В последнюю версию сборки был добавлен css-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет опционален: для начала использования просто раскомментируйте строки, связанные с **bootstrap** в **gulpfile.js** и первую строку в  **dev/js/components/main.js**.
+
+**ВАЖНО!** По умолчанию в **gulpfile.js** прописан файл **bootstrap.scss**, содержащий всю библиотеку и имеющий соответствующий размер, если Вы хотите облегчить сборку и использовать только определенные компоненты - измените путь к файлу(ам) на нужные (находятся в **/node_modules/bootstrap/scss**).
+
+**ВАЖНО №2** При использовании bootstrap измените файл **dev/scss/components/_default.scss**, убрав у класса **container** свойства **margin** и **padding**, а так-же задав фиксированную ширину, чтобы избежать конфликтов с классами у **bootstrap**, либо используйте другое имя для ограничительного контейнера.
 
 ## PS
 Это моя первая сборка, идею позаимствовал у *[MaxGraph](https://github.com/maxdenaro)* (надеюсь, что он не против и спасибо ему).
 Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
 Peace <3
 
-# GulpPack by EvanLongin version 1.3!
-##### Update to version 1.3: added zeroing of margin of some elements, a 'media' folder for mp3-files, and description in English language
+# GulpPack by EvanLongin version 1.4!
+##### Update to version 1.4: Moving to the pipeline, fixing minor bugs, adding Bootstrap as an optional package
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -127,10 +137,11 @@ Peace <3
 4. [Working with HTML](#working-with-html)
 5. [Working with (S)CSS](#working-with-scss)
 6. [Working with JavaScript](#working-with-javascript)
-6. [Working with images (except SVG)](#working-with-images-except-svg)
-7. [Working with SVG](#working-with-svg)
-8. [Working with fonts](#working-with-fonts)
-9. [Splide js eng](#splide-js-eng)
+7. [Working with images (except SVG)](#working-with-images-except-svg)
+8. [Working with SVG](#working-with-svg)
+9. [Working with fonts](#working-with-fonts)
+10. [Splide js eng](#splide-js-eng)
+11. [Bootstrap eng](#bootstrap-eng)
 
 ## Folder structure
 The project has a structure like:
@@ -166,9 +177,9 @@ and after that in the build folder run the command:
 
 ```gulp backend``` (**test mode**) - run the build in backend mode. In this mode, build from a folder **dev/** to the **dist/** folder with concatenated style files, html and js. Minification is not applied to files, images are optimized.
 
-```fonts``` - converting fonts from ttf to woff2. Font sources should be placed in a folder **dev/fonts/src**. After executing the command, the searched fonts will appear in the **dev/fonts** folder.
+```gulp fonts``` - converting fonts from ttf to woff2. Font sources should be placed in a folder **dev/fonts/src**. After executing the command, the searched fonts will appear in the **dev/fonts** folder.
 
-```zipfiles``` - archiving the **dist/** folder. The archive of the same name is saved in the project root..
+```gulp zip``` - archiving the **dist/** folder. The archive of the same name is saved in the project root..
 
 ```npm run html``` - script for checking html files on the W3C validator. All files located in the root of the **dev/** folder will be scanned.
 
@@ -228,7 +239,14 @@ To convert SVG files, the **dev/images/src/svg** folder is used - the sources ar
 Using the plugin *[gulp-ttf2woff2](https://www.npmjs.com/package/gulp-ttf2woff2)* the pack implements the ability to convert fonts from ttf to woff2. It is recommended to prepare fonts in advance.
 
 ## Splide JS eng
-In the latest version of the pack for implementing the slider, Swiper was replaced by *[Splide JS](https://splidejs.com/)*, because IMHO, the latter works much more stable. By default, the js and css files of the slider are disabled in the pack; to enable it, uncomment the corresponding lines in the **gulpfile.js** and **webpack.config.js** files.
+To implement the slider, the original Swiper was replaced by *[Splide JS](https://splidejs.com/)*, because IMHO, the latter works much more stable. By default, the js and css files of the slider are disabled in the pack; to enable it, uncomment the corresponding lines in the **gulpfile.js** and **webpack.config.js** files.
+
+## Bootstrap eng
+The CSS framework *[bootstrap](https://getbootstrap.com/)* was added to the latest version of the pack. The package is optional: to start using it, simply uncomment the lines associated with **bootstrap** in **gulpfile.js** and the first line in **dev/js/components/main.js**. 
+
+**IMPORTANT!** By default, **gulpfile.js** contains the file **bootstrap.scss**, which contains the entire library and has the appropriate size; if you want to make pack easier and use only certain components, change the path to the file(s) to the required ones (located in **/node_modules/bootstrap/scss**).
+
+**IMPORTANT #2** If you're using bootstrap, change the file **dev/scss/components/_default.scss**, removing the **margin** and **padding** properties from the **container** class, as well as either specify a fixed width to avoid conflicts with **bootstrap** classes, or use a different name for the bounding container.
 
 ## PS
 This is my first pack, I borrowed the idea from *[MaxGraph](https://github.com/maxdenaro)* (I hope he doesn’t mind and thanks to him).
