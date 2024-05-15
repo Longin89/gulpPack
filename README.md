@@ -1,6 +1,6 @@
 ![gulp logo](gulp.png)
-# GulpPack by EvanLongin version 1.4!
-##### Обновление до версии 1.4: Переезд на pipeline,исправление мелких ошибок, добавление опционального пакета Bootstrap
+# GulpPack by EvanLongin version 1.5!
+##### Обновление до версии 1.5: Обновление Gulp до версии 5, добавление пакета stylelint с готовыми правилами, добавление файла _media.scss для медиа-запросов, добавление css-оптимизатора csso.
 [English description](#table-of-contents)
 
 
@@ -16,6 +16,7 @@
 9. [Работа со шрифтами](#работа-со-шрифтами)
 10. [Splide js](#splide-js)
 11. [Bootstrap](#bootstrap)
+12. [Stylelint-линтер](#stylelint-линтер)
 
 ## Структура папок
 Проект имеет структуру вида:
@@ -77,6 +78,8 @@
 
 **./components/_header.scss** - файл для "шапки" проекта.
 
+**./components/_media.scss** - файл для медиа-запросов.
+
 **./components/_mixins.scss** - файл для хранения "примесей". По умолчанию уже хранит в себе миксина для быстрого добавления / использования шрифтов, а так-же градиентов.
 
 **./components/_normalize.scss** - файл нормализации, версия 8.0.1.
@@ -116,19 +119,28 @@
 Для реализации слайдера первоначальный Swiper был заменен на *[Splide JS](https://splidejs.com/)*, т.к. на мой взгляд последний работает гораздо стабильнее. По умолчанию js и css-файлы слайдера выключены в сборке, для их включения раскомментируйте соответствующие строки в файлах **gulpfile.js** и **webpack.config.js**.
 
 ## Bootstrap
-В последнюю версию сборки был добавлен css-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет опционален: для начала использования просто раскомментируйте строки, связанные с **bootstrap** в **gulpfile.js** и первую строку в  **dev/js/components/main.js**.
+CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет опционален: для начала использования просто раскомментируйте строки, связанные с **bootstrap** в **gulpfile.js** и первую строку в  **dev/js/components/main.js**.
 
 **ВАЖНО!** По умолчанию в **gulpfile.js** прописан файл **bootstrap.scss**, содержащий всю библиотеку и имеющий соответствующий размер, если Вы хотите облегчить сборку и использовать только определенные компоненты - измените путь к файлу(ам) на нужные (находятся в **/node_modules/bootstrap/scss**).
 
 **ВАЖНО №2** При использовании bootstrap измените файл **dev/scss/components/_default.scss**, убрав у класса **container** свойства **margin** и **padding**, а так-же задав фиксированную ширину, чтобы избежать конфликтов с классами у **bootstrap**, либо используйте другое имя для ограничительного контейнера.
+
+## Stylelint-линтер
+В версию 1.5 был интегрирован линтер стилей stylelint.
+Для работоспособности (помимо установки всех пакетов) нужно установить расширение.
+Для этого нажмите ```ctrl``` + ```shift``` + ```p``` и наберите:
+
+```@sort:installs stylelint-plus``` 
+
+Правила stylelint прописаны в файле ```.stylelintrc.json```, игнорируемые файлы вы можете прописать в файле ```.stylelintignore```. 
 
 ## PS
 Это моя первая сборка, идею позаимствовал у *[MaxGraph](https://github.com/maxdenaro)* (надеюсь, что он не против и спасибо ему).
 Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
 Peace <3
 
-# GulpPack by EvanLongin version 1.4!
-##### Update to version 1.4: Moving to the pipeline, fixing minor bugs, adding Bootstrap as an optional package
+# GulpPack by EvanLongin version 1.5!
+##### Update to version 1.5: Updated Gulp to version 5, added the stylelint package with ready-made rules, added the _media.scss file for media queries, added the csso-optimizer.
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -142,6 +154,7 @@ Peace <3
 9. [Working with fonts](#working-with-fonts)
 10. [Splide js eng](#splide-js-eng)
 11. [Bootstrap eng](#bootstrap-eng)
+12. [Stylelint](#stylelint)
 
 ## Folder structure
 The project has a structure like:
@@ -203,6 +216,8 @@ The pack uses the sass preprocessor in scss syntax. During the development proce
 
 **./components/_header.scss** - file for header of project.
 
+**./components/_media.scss** - file for media queries.
+
 **./components/_mixins.scss** - file for storing mixins. By default, it already contains a mixin for quickly adding / using fonts and gradients.
 
 **./components/_normalize.scss** - file for normalize, v.8.0.1.
@@ -247,6 +262,15 @@ The CSS framework *[bootstrap](https://getbootstrap.com/)* was added to the late
 **IMPORTANT!** By default, **gulpfile.js** contains the file **bootstrap.scss**, which contains the entire library and has the appropriate size; if you want to make pack easier and use only certain components, change the path to the file(s) to the required ones (located in **/node_modules/bootstrap/scss**).
 
 **IMPORTANT #2** If you're using bootstrap, change the file **dev/scss/components/_default.scss**, removing the **margin** and **padding** properties from the **container** class, as well as either specify a fixed width to avoid conflicts with **bootstrap** classes, or use a different name for the bounding container.
+
+## Stylelint
+The stylelint linter was integrated into version 1.5.
+To make it work (in addition to installing all packages), you need to install an extension.
+To do this, press ```ctrl``` + ```shift``` + ```p``` and type:
+
+```@sort:installs stylelint-plus```
+
+Stylelint rules are written in the file ```.stylelintrc.json```, you can specify ignored files in the file ```.stylelintignore```.
 
 ## PS
 This is my first pack, I borrowed the idea from *[MaxGraph](https://github.com/maxdenaro)* (I hope he doesn’t mind and thanks to him).

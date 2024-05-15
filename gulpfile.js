@@ -28,6 +28,7 @@
     const webpack = require('webpack');
     const webpackstream = require('webpack-stream');
     const zip = require('gulp-zip');
+    const csso = require('gulp-csso');
 
 
 
@@ -202,7 +203,8 @@
         browserSync.init({
             server: {
                 baseDir: 'dev/'
-            }
+            },
+            browser: "google-chrome",
         });
         watch(['./dev/scss/**/*.scss'], styles)
         watch(['./dev/images/src'], images)
@@ -354,8 +356,9 @@
                 //'./node_modules/bootstrap/scss/bootstrap.scss',
                 './dev/scss/style.scss'
             ]),
-            mainSass({ outputStyle: 'compressed' }),
+            mainSass(),
             concat('style.min.css'),
+            csso(),
             dest('./dev/css'),
             callback
         );
