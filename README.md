@@ -1,6 +1,6 @@
 ![gulp logo](gulp.png)
-# GulpPack by EvanLongin version 1.5!
-##### Обновление до версии 1.5: Обновление Gulp до версии 5, добавление пакета stylelint с готовыми правилами, добавление файла _media.scss для медиа-запросов, добавление css-оптимизатора csso.
+# GulpPack by EvanLongin version 1.5.1!
+##### Обновление до версии 1.5.1: Откат на версию gulp 4.0.2 ввиду нестабильности работы части пакетов, добавлен пакет gulp-clean-css для лучшей оптимизации стилей
 [English description](#table-of-contents)
 
 
@@ -140,7 +140,7 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 Peace <3
 
 # GulpPack by EvanLongin version 1.5!
-##### Update to version 1.5: Updated Gulp to version 5, added the stylelint package with ready-made rules, added the _media.scss file for media queries, added the csso-optimizer.
+##### Update to version 1.5.1: Rollback to gulp 4.0.2 due to instability of some packages, added gulp-clean-css package for better styles optimization
 
 ## Table of contents
 1. [Folder structure](#folder-structure)

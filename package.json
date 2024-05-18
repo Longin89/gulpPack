@@ -1,24 +1,24 @@
 {
   "name": "gulppack",
-  "version": "1.5",
+  "version": "1.5.1",
   "description": "Simple gulp-package for web-layout",
   "main": "gulpfile.js",
   "scripts": {
     "html": "node-w3c-validator -f lint -evH -i ./dev/*.html"
   },
   "author": "EvanLongin",
-  "license": "ISC",
+  "license":"UNLICENSED",
   "devDependencies": {
     "@babel/preset-env": "7.23.9",
     "browser-sync": "3.0.2",
     "css-loader": "6.10.0",
     "fs-extra": "11.2.0",
-    "gulp": "5.0.0",
+    "gulp": "4.0.2",
     "gulp-autoprefixer": "8.0.0",
     "gulp-babel": "8.0.0",
     "gulp-clean": "0.4.0",
+    "gulp-clean-css": "4.3.0",
     "gulp-concat": "2.6.1",
-    "gulp-csso": "4.0.1",
     "gulp-file-include": "2.3.0",
     "gulp-htmlmin": "5.0.1",
     "gulp-if": "3.0.0",

@@ -28,7 +28,8 @@
     const webpack = require('webpack');
     const webpackstream = require('webpack-stream');
     const zip = require('gulp-zip');
-    const csso = require('gulp-csso');
+    const cleanCSS = require('gulp-clean-css');
+
 
 
 
@@ -60,7 +61,7 @@
             src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
                 //'./node_modules/bootstrap/scss/bootstrap.scss',
-                './dev/scss/style.scss'
+                './dev/scss/**/*.scss'
             ]),
             sourcemaps.init(),
             plumber({
@@ -278,7 +279,7 @@
         src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
                 //'./node_modules/bootstrap/scss/bootstrap.scss',
-                './dev/scss/style.scss'
+                './dev/scss/**/*.scss'
             ]),
             mainSass(),
             autoprefixer({
@@ -354,11 +355,11 @@
         src([
                 //'./node_modules/@splidejs/splide/dist/css/splide.min.css',
                 //'./node_modules/bootstrap/scss/bootstrap.scss',
-                './dev/scss/style.scss'
+                './dev/scss/**/*.scss'
             ]),
-            mainSass(),
+            mainSass({outputStyle:'compressed'}),
+            cleanCSS({level: 2}),
             concat('style.min.css'),
-            csso(),
             dest('./dev/css'),
             callback
         );

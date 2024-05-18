@@ -5,7 +5,7 @@
 
   "rules": {
     "scss/load-no-partial-leading-underscore": null,
-    "indentation": 2,
+    "indentation": 4,
     "order/order": [
       "custom-properties",
       "dollar-variables",
@@ -156,7 +156,7 @@
     "function-url-quotes": "always",
     "function-whitespace-after": "always",
     "keyframe-declaration-no-important": true,
-    "length-zero-no-unit": true,
+    "length-zero-no-unit": null,
     "max-empty-lines": 1,
     "max-line-length": 120,
     "max-nesting-depth": null,

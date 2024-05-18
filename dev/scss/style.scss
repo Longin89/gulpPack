@@ -8,12 +8,12 @@
 @import "./components/_fonts";
 @import "./components/media";
 
-body {
+.page__body {
   @include gradient(linear-gradient(270deg, #ec4484 -28.49%, #8871a7 83.02%), text, black);
   background-color: #ec4484;
 }
 
-h1 {
+.main__title {
   @include font-patterns(black, "Ubuntu-Regular", 6rem, normal, 400, 130%);
   text-align: center;
 }
