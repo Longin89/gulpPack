@@ -1,6 +1,6 @@
 ![gulp logo](gulp.png)
-# GulpPack by EvanLongin version 1.5.1!
-##### Обновление до версии 1.5.1: Откат на версию gulp 4.0.2 ввиду нестабильности работы части пакетов, добавлен пакет gulp-clean-css для лучшей оптимизации стилей
+# GulpPack by EvanLongin version 1.6!
+##### Обновление до версии 1.6: Добавлен ESLinter для работы с JavaScript.
 [English description](#table-of-contents)
 
 
@@ -16,7 +16,7 @@
 9. [Работа со шрифтами](#работа-со-шрифтами)
 10. [Splide js](#splide-js)
 11. [Bootstrap](#bootstrap)
-12. [Stylelint-линтер](#stylelint-линтер)
+12. [Линтеры](#линтеры)
 
 ## Структура папок
 Проект имеет структуру вида:
@@ -125,22 +125,25 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 
 **ВАЖНО №2** При использовании bootstrap измените файл **dev/scss/components/_default.scss**, убрав у класса **container** свойства **margin** и **padding**, а так-же задав фиксированную ширину, чтобы избежать конфликтов с классами у **bootstrap**, либо используйте другое имя для ограничительного контейнера.
 
-## Stylelint-линтер
-В версию 1.5 был интегрирован линтер стилей stylelint.
-Для работоспособности (помимо установки всех пакетов) нужно установить расширение.
+## Линтеры
+В версию 1.6 помимо линтера стилей Stylelint был интегрирован линтер для JavaScript - ESLinter.
+
+Для работоспособности Stylelint (помимо установки всех пакетов) нужно установить расширение.
 Для этого нажмите ```ctrl``` + ```shift``` + ```p``` и наберите:
 
 ```@sort:installs stylelint-plus``` 
 
-Правила stylelint прописаны в файле ```.stylelintrc.json```, игнорируемые файлы вы можете прописать в файле ```.stylelintignore```. 
+Правила stylelint прописаны в файле ```.stylelintrc.json```, игнорируемые файлы вы можете прописать в файле ```.stylelintignore```.
+
+Для работоспособности ESlinter нужно установить официальное расширение ```ESLint``` и прописать необходимые правила в файле ```eslint.config.mjs```.
 
 ## PS
 Это моя первая сборка, идею позаимствовал у *[MaxGraph](https://github.com/maxdenaro)* (надеюсь, что он не против и спасибо ему).
 Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
 Peace <3
 
-# GulpPack by EvanLongin version 1.5!
-##### Update to version 1.5.1: Rollback to gulp 4.0.2 due to instability of some packages, added gulp-clean-css package for better styles optimization
+# GulpPack by EvanLongin version 1.6!
+##### Update to version 1.6: Update to version 1.6: Added ESLinter for working with JavaScript.
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -154,7 +157,7 @@ Peace <3
 9. [Working with fonts](#working-with-fonts)
 10. [Splide js eng](#splide-js-eng)
 11. [Bootstrap eng](#bootstrap-eng)
-12. [Stylelint](#stylelint)
+12. [Linters](#linters)
 
 ## Folder structure
 The project has a structure like:
@@ -263,14 +266,17 @@ The CSS framework *[bootstrap](https://getbootstrap.com/)* was added to the late
 
 **IMPORTANT #2** If you're using bootstrap, change the file **dev/scss/components/_default.scss**, removing the **margin** and **padding** properties from the **container** class, as well as either specify a fixed width to avoid conflicts with **bootstrap** classes, or use a different name for the bounding container.
 
-## Stylelint
-The stylelint linter was integrated into version 1.5.
-To make it work (in addition to installing all packages), you need to install an extension.
+## Linters
+In version 1.6, in addition to the Stylelint linter, a JavaScript linter, ESLinter, was integrated.
+
+For Stylelint to work (in addition to installing all packages), you need to install an extension.
 To do this, press ```ctrl``` + ```shift``` + ```p``` and type:
 
-```@sort:installs stylelint-plus```
+```@sort:installs stylelint-plus``` 
 
-Stylelint rules are written in the file ```.stylelintrc.json```, you can specify ignored files in the file ```.stylelintignore```.
+Stylelint rules are written in the file ```.stylelintrc.json```; you can specify ignored files in the file ```.stylelintignore```.
+
+For ESlinter to work, you need to install the official extension ```ESLint``` and write the necessary rules in the file ```eslint.config.mjs```.
 
 ## PS
 This is my first pack, I borrowed the idea from *[MaxGraph](https://github.com/maxdenaro)* (I hope he doesn’t mind and thanks to him).
