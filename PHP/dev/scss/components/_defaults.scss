@@ -1,0 +1,69 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.page {
+  // html
+  height: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Times", serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.page__body {
+  // body
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+  cursor: default;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+.container {
+  max-width: 1230px; // ширина всего макета, меняется индивидуально с учетом отступа в 10px выше
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+/* Down footer */
+
+html,
+body {
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden; // если используете на сайте position: sticky - уберите эту настройку
+}
+
+main {
+  flex: 1 1 auto;
+}

@@ -1,6 +1,6 @@
-![gulp logo](gulp.png)
-# GulpPack by EvanLongin version 1.6!
-##### Обновление до версии 1.6: Добавлен ESLinter для работы с JavaScript.
+![gulp](gulp.png)
+# GulpPack by EvanLongin version 2.0!
+##### Обновление до версии 2.0: Добавлена версия сборки для PHP
 [English description](#table-of-contents)
 
 
@@ -17,6 +17,7 @@
 10. [Splide js](#splide-js)
 11. [Bootstrap](#bootstrap)
 12. [Линтеры](#линтеры)
+13. [Сборка для PHP](#сборка-для-php)
 
 ## Структура папок
 Проект имеет структуру вида:
@@ -137,13 +138,22 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 
 Для работоспособности ESlinter нужно установить официальное расширение ```ESLint``` и прописать необходимые правила в файле ```eslint.config.mjs```.
 
+## Сборка для PHP
+В версию 2.0 была добавлена сборка для PHP. Структура файлов и команды сохранены, для полноценной работы я сделал рабочее кружение на основе Docker-compose.
+Скачать его можно по ссылке - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
+
+Там-же находится инструкция.
+Основное отличие заключается в перенаправлении трафика nginx докера на browsec для отслеживания изменений в реальном времени(по аналогии с html-файлами).
+
+**ВАЖНО!** Сборка для PHP неработоспособна без действующего сервера. Понимаю, это очевидно, но не упомянуть об этом не мог.
+
 ## PS
 Это моя первая сборка, идею позаимствовал у *[MaxGraph](https://github.com/maxdenaro)* (надеюсь, что он не против и спасибо ему).
 Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
-Peace <3
+Мир <3
 
-# GulpPack by EvanLongin version 1.6!
-##### Update to version 1.6: Update to version 1.6: Added ESLinter for working with JavaScript.
+# GulpPack by EvanLongin version 2.0!
+##### Update to version 2.0: Added pack version for PHP
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -158,6 +168,7 @@ Peace <3
 10. [Splide js eng](#splide-js-eng)
 11. [Bootstrap eng](#bootstrap-eng)
 12. [Linters](#linters)
+13. [PHP-Pack](#php-pack)
 
 ## Folder structure
 The project has a structure like:
@@ -278,7 +289,16 @@ Stylelint rules are written in the file ```.stylelintrc.json```; you can specify
 
 For ESlinter to work, you need to install the official extension ```ESLint``` and write the necessary rules in the file ```eslint.config.mjs```.
 
+## PHP-Pack
+An pack for PHP was added in version 2.0. The file structure and commands are preserved; for this pack i made a build based on Docker-compose.
+You can download it here - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
+
+There are also instructions there.
+The main difference is that docker nginx traffic is redirected to browsec to track changes in real time (similar to html files).
+
+**IMPORTANT!** The PHP pack does not work without a functioning server. I understand this is obvious, but i couldn’t help but mention it.
+
 ## PS
 This is my first pack, I borrowed the idea from *[MaxGraph](https://github.com/maxdenaro)* (I hope he doesn’t mind and thanks to him).
 If possible, the pack will be completed and replenished; please report any problems in issues.
-Мир <3
+Peace <3

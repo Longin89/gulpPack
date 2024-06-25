@@ -1,1 +1,0 @@
-{"version":3,"file":"main.bundle.js","mappings":";;;;;;;;;;;;;;;;;;;;;;AEAA,yC","sources":["webpack://gulppack/./dev/js/components/_vars.js","webpack://gulppack/./dev/js/components/_functions.js","webpack://gulppack/./dev/js/components/main.js"],"sourcesContent":["","","//import * as bootstrap from 'bootstrap';"],"names":[],"sourceRoot":""}

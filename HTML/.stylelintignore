@@ -1,0 +1,4 @@
+*.js
+*.html
+_normalize.scss
+*.mjs

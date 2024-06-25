@@ -4,3 +4,4 @@ package-lock.json
 /dev/js/maps/
 /dev/js/main.bundle.js
 .gitkeep
+*.map
