@@ -1,6 +1,6 @@
 {
-  "name": "gulppack",
-  "version": "1.5.1",
+  "name": "gulpHP",
+  "version": "2.0",
   "description": "Simple gulp-package for web-layout",
   "main": "gulpfile.js",
   "scripts": {
