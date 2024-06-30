@@ -1,6 +1,6 @@
 ![gulp](gulp.png)
-# GulpPack by EvanLongin version 2.0!
-##### Обновление до версии 2.0: Добавлена версия сборки для PHP
+# GulpPack by EvanLongin version 2.0.1!
+##### Обновление до версии 2.0.1: Добавлен тестовый скрипт Testing.php, выводящий 'Hello, World!' при запуске сборки для PHP
 [English description](#table-of-contents)
 
 
@@ -145,6 +145,8 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 Там-же находится инструкция.
 Основное отличие заключается в перенаправлении трафика nginx докера на browsec для отслеживания изменений в реальном времени(по аналогии с html-файлами).
 
+Так-же добавлен тестовый скрипт `Testing.php`, выводящий `Hello, World!` при запуске сборки.
+
 **ВАЖНО!** Сборка для PHP неработоспособна без действующего сервера. Понимаю, это очевидно, но не упомянуть об этом не мог.
 
 ## PS
@@ -152,8 +154,8 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
 Мир <3
 
-# GulpPack by EvanLongin version 2.0!
-##### Update to version 2.0: Added pack version for PHP
+# GulpPack by EvanLongin version 2.0.1!
+##### Update to version 2.0.1: Added test script Testing.php that outputs 'Hello, World!' when running build for PHP
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -292,6 +294,8 @@ For ESlinter to work, you need to install the official extension ```ESLint``` an
 ## PHP-Pack
 An pack for PHP was added in version 2.0. The file structure and commands are preserved; for this pack i made a build based on Docker-compose.
 You can download it here - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
+
+A test script `Testing.php` has also been added, which displays `Hello, World!` when the build starts.
 
 There are also instructions there.
 The main difference is that docker nginx traffic is redirected to browsec to track changes in real time (similar to html files).

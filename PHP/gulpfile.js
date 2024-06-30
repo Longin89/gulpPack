@@ -42,7 +42,6 @@
         return pipeline(
             src("./dev/php/*.php"),
             fileinclude({ prefix: "@@" }),
-            webpHTML(),
             dest("./dev"),
             browserSync.stream(),
             callback

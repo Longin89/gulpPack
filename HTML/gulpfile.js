@@ -42,7 +42,6 @@
         return pipeline(
             src("./dev/html/*.html"),
             fileinclude({ prefix: "@@" }),
-            webpHTML(),
             dest("./dev"),
             browserSync.stream(),
             callback
