@@ -34,15 +34,31 @@
 
 
 
+
     /************************/
-    /*  INCLUDE HTML PAGES  */
+    /*  INCLUDE PHP PAGES  */
     /************************/
 
     const php = (callback) => {
         return pipeline(
-            src("./dev/php/*.php"),
+            src(["./dev/php/**/*.php",
+                "vendor/**/*.php",
+            ]),
             fileinclude({ prefix: "@@" }),
-            dest("./dev"),
+            dest("./app/php"),
+            browserSync.stream(),
+            callback
+        );
+    };
+
+
+
+
+    const indexParse = (callback) => {
+        return pipeline(
+            src("./dev/index.php"),
+            fileinclude({ prefix: "@@" }),
+            dest("./app"),
             browserSync.stream(),
             callback
         );
@@ -58,7 +74,7 @@
     const styles = (callback) => {
         return pipeline(
             src([
-                "./node_modules/@splidejs/splide/dist/css/splide.min.css",
+                //"./node_modules/@splidejs/splide/dist/css/splide.min.css",
                 //'./node_modules/bootstrap/scss/bootstrap.scss',
                 "./dev/scss/**/*.scss"
             ]),
@@ -80,7 +96,7 @@
             }),
             concat("style.min.css"),
             sourcemaps.write("./"),
-            dest("./dev/css"),
+            dest("./app/css"),
             browserSync.stream(),
             callback
         );
@@ -96,7 +112,7 @@
     const scripts = (callback) => {
         return pipeline(
         src([
-                "./node_modules/@splidejs/splide/dist/js/splide.js",
+                //"./node_modules/@splidejs/splide/dist/js/splide.js",
                 "./dev/js/components/*.js",
             ]),
             plumber({
@@ -108,8 +124,11 @@
                     };
                 })
             }),
+            babel({
+                presets: ["@babel/env"]
+            }),
             webpackstream(require("./webpack.config.js")[1], webpack),
-            dest("./dev/js"),
+            dest("./app/js"),
             (browserSync.stream()),
             callback
         );
@@ -131,6 +150,7 @@
             src("./dev/images/src/*.*"),
             newer("./dev/images"),
             imagemin(),
+            dest("./app/images"),
             dest("./dev/images"),
             callback
         );
@@ -154,7 +174,8 @@
                     }
                 }
             }),
-            dest("./dev/images/svg_out"),
+            dest("./app/images/svg_app"),
+            dest("./dev/images/svg_app"),
             callback
         );
     };
@@ -171,6 +192,7 @@
         src("./dev/fonts/src/*.*"),
             src("./dev/fonts/*.ttf"),
             ttf2woff2(),
+            dest("./app/fonts"),
             dest("./dev/fonts"),
             callback
         );
@@ -185,8 +207,8 @@
 
     const zipfiles = (callback) => {
         return pipeline(
-            src("./dist/**"),
-            zip("dist.zip"),
+            src("./app/**"),
+            zip("app.zip"),
             dest("./"),
             callback
         );
@@ -201,186 +223,18 @@
 
     const watcher = () => {
         browserSync.init({
-            proxy: "localhost/dev",
-            browser: "google-chrome",
+            proxy: "localhost",
             notify: false
         });
         watch(["./dev/scss/**/*.scss"], styles);
-        watch(["./dev/images/src"], images);
+        watch(["./dev/images/src/*.*"], images);
         watch(["./dev/images/src/svg"], sprite);
-        watch(["./dev/fonts/src/"], fonts);
+        watch(["./dev/fonts/src/*.*"], fonts);
         watch(["./dev/js/components/*.js"], scripts);
         watch(["./dev/php/**/*.php"], php);
-        watch(["./dev/*.php"]).on("change", browserSync.reload);
+        watch(["./dev/index.php"], indexParse);
+        watch(["./app/php/**/*.php", "!app/php/composer/*.*"]).on("change", browserSync.reload);
     };
-
-
-
-
-    /**************************************/
-    /*  CLEAN 'DIST' FOLDER BEFORE BUILD  */
-    /**************************************/
-
-    const cleanapp = (callback) => {
-        return pipeline(
-        src("./dist/*"),
-            gulpif(fs.existsSync("./dist"), clean()),
-            callback
-        );
-    };
-
-
-
-
-    /****************************/
-    /*  BUILD PROJECT FOR PROD  */
-    /****************************/
-
-    const compileProd = (callback) => {
-        return pipeline(
-        src([
-                "./dev/css/style.min.css",
-                "./dev/images/favicon.ico",
-                "./dev/images/*.webp",
-                "./dev/images/*.png",
-                "./dev/images/*.jpeg",
-                "./dev/images/*.jpg",
-                "./dev/fonts/*.*",
-                "./dev/js/main.bundle.js",
-                "./dev/*.php",
-                "./dev/media/*.mp3"
-            ], { base: "dev" }),
-            dest("./dist"),
-            callback
-        );
-    };
-
-
-
-
-    /*******************************/
-    /*  BUILD PROJECT FOR BACKEND  */
-    /*******************************/
-
-    const phpback = (callback) => {
-        return pipeline(
-        src("./dev/php/*.php"),
-            fileinclude({ prefix: "@@" }),
-            webpHTML(),
-            dest("./dist"),
-            callback
-        );
-    };
-
-
-    const stylesback = (callback) => {
-        return pipeline(
-        src([
-                "./node_modules/@splidejs/splide/dist/css/splide.min.css",
-                //'./node_modules/bootstrap/scss/bootstrap.scss',
-                "./dev/scss/**/*.scss"
-            ]),
-            mainSass(),
-            autoprefixer({
-                cascade: false,
-                grid: true,
-                overrideBrowserslist: ["last 8 versions"],
-                browsers: [
-                    "Android >= 4",
-                    "Chrome >= 20",
-                    "Firefox >= 24",
-                    "Explorer >= 11",
-                    "iOS >= 6",
-                    "Opera >= 12",
-                    "Safari >= 6",
-                  ],
-            }),
-            concat("style.min.css"),
-            dest("./dist/css"),
-            callback
-        );
-    };
-
-
-    const scriptsback = (callback) => {
-        return pipeline(
-        src([
-                "./node_modules/@splidejs/splide/dist/js/splide.js",
-                "./dev/js/components/*.js"
-            ]),
-            concat("main.bundle.js"),
-            dest("./dist/js"),
-            callback
-        );
-    };
-
-
-    const compileBack = (callback) => {
-        return pipeline(
-        src([
-                "./dev/images/*.webp",
-                "./dev/images/*.png",
-                "./dev/images/*.jpeg",
-                "./dev/images/*.ico",
-                "./dev/fonts/*.*",
-                "./dev/media/*.mp3"
-            ], { base: "dev" }),
-            dest("./dist"),
-            callback
-        );
-    };
-
-
-
-
-    /******************************/
-    /*  MINIFYING FILES FOR PROD  */
-    /******************************/
-
-    const phpminify = (callback) => {
-        return pipeline(
-        src("./dev/php/*.php"),
-            fileinclude({ prefix: "@@" }),
-            webpHTML(),
-            htmlmin({ collapseWhitespace: true }),
-            dest("./dev"),
-            callback
-        );
-    };
-
-
-    const stylesminify = (callback) => {
-        return pipeline(
-        src([
-                "./node_modules/@splidejs/splide/dist/css/splide.min.css",
-                //'./node_modules/bootstrap/scss/bootstrap.scss',
-                "./dev/scss/**/*.scss"
-            ]),
-            mainSass({outputStyle:"compressed"}),
-            cleanCSS({level: 2}),
-            concat("style.min.css"),
-            dest("./dev/css"),
-            callback
-        );
-    };
-
-
-    const scriptsminify = (callback) => {
-        return pipeline(
-        src([
-                "./node_modules/@splidejs/splide/dist/js/splide.js",
-                "./dev/js/components/*.js",
-            ]),
-            babel({
-                presets: ["@babel/env"]
-            }),
-            webpackstream(require("./webpack.config.js")[0], webpack),
-            dest("./dev/js"),
-            callback
-        );
-    };
-
-
 
 
     /********************/
@@ -388,9 +242,7 @@
     /********************/
 
     module.exports = {
-        "default": parallel(php, styles, scripts, images, sprite, watcher),
-        "build": series(cleanapp, phpminify, stylesminify, scriptsminify, compileProd),
-        "backend": series(cleanapp, phpback, stylesback, scriptsback, compileBack),
+        "default": parallel(php, indexParse, styles, scripts, images, sprite, fonts, watcher),
         "fonts": series(fonts),
         "zip": series(zipfiles)
     };

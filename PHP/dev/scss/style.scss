@@ -9,11 +9,28 @@
 @import "./components/media";
 
 .page__body {
-  @include gradient(linear-gradient(270deg, #ec4484 -28.49%, #8871a7 83.02%), text, black);
-  background-color: #ec4484;
+    // @include gradient(linear-gradient(270deg, #f1f1f1 -28.49%, #8871a7 83.02%), text, rgb(252, 251, 251));
+    background-image: url("../images/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
-.main__title {
-  @include font-patterns(black, "Ubuntu-Regular", 6rem, normal, 400, 130%);
-  text-align: center;
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+h1 {
+    span {
+        color: #2ae426;
+    }
+}
+
+.My__class,
+.My__trait,
+.My__iface {
+    @include font-patterns(#fff, "Ubuntu-Regular", 4rem, normal, 400, 130%);
 }

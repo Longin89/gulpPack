@@ -1,6 +1,8 @@
-![gulp](gulp.png)
-# GulpPack by EvanLongin version 2.0.1!
-##### Обновление до версии 2.0.1: Добавлен тестовый скрипт Testing.php, выводящий 'Hello, World!' при запуске сборки для PHP
+<div style="text-align:center;">
+  <img src="gulp.png" alt="gulp logo">
+</div>
+# GulpPack by EvanLongin version 2.1!
+##### Обновление до версии 2.1: Добавлены большие изменения для php-сборки, подробнее в описании.
 [English description](#table-of-contents)
 
 
@@ -17,7 +19,7 @@
 10. [Splide js](#splide-js)
 11. [Bootstrap](#bootstrap)
 12. [Линтеры](#линтеры)
-13. [Сборка для PHP](#сборка-для-php)
+13. [Сборка для PHP (beta)](#сборка-для-php)
 
 ## Структура папок
 Проект имеет структуру вида:
@@ -139,23 +141,36 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 Для работоспособности ESlinter нужно установить официальное расширение ```ESLint``` и прописать необходимые правила в файле ```eslint.config.mjs```.
 
 ## Сборка для PHP
-В версию 2.0 была добавлена сборка для PHP. Структура файлов и команды сохранены, для полноценной работы я сделал рабочее кружение на основе Docker-compose.
+
+<div style="text-align:center;">
+  <img src="cover.jpg" alt="php cover">
+</div>
+
+Структура файлов изменена, помимо команды запуска остались ```fonts``` и ```zip```, папка ```dist``` удалена, вместо нее используется папка ```app```. В нее-же компилируется готовый проект во время работы.
+
+В папку ```dev/php/``` добавлены:
+
+```classes``` - для хранения классов.
+
+```interfaces``` - для хранения интерфейсов.
+
+```traits``` - для хранения трейтов.
+
+К каждому компоненту написан тестовый скрипт, отрабатывающий при запуске сборки (смотри картинку). Если скрипт не отработал с 1-го раза - обновите экран, если не отработал после этого - пишите в issue.
+
+Для полноценной работы я сделал рабочее кружение на основе Docker-compose.
 Скачать его можно по ссылке - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
 
 Там-же находится инструкция.
-Основное отличие заключается в перенаправлении трафика nginx докера на browsec для отслеживания изменений в реальном времени(по аналогии с html-файлами).
-
-Так-же добавлен тестовый скрипт `Testing.php`, выводящий `Hello, World!` при запуске сборки.
 
 **ВАЖНО!** Сборка для PHP неработоспособна без действующего сервера. Понимаю, это очевидно, но не упомянуть об этом не мог.
 
 ## PS
-Это моя первая сборка, идею позаимствовал у *[MaxGraph](https://github.com/maxdenaro)* (надеюсь, что он не против и спасибо ему).
-Сборка по возможности будет допиливаться, пополняться, обо всех проблемах просьба сообщать в issues.
+Сборка будет допиливаться по мере возможности, обо всех проблемах просьба сообщать в issues.
 Мир <3
 
-# GulpPack by EvanLongin version 2.0.1!
-##### Update to version 2.0.1: Added test script Testing.php that outputs 'Hello, World!' when running build for PHP
+# GulpPack by EvanLongin version 2.1!
+##### Update to version 2.1: Added a lot of changes for the PHP build, more details in the description.
 
 ## Table of contents
 1. [Folder structure](#folder-structure)
@@ -170,7 +185,7 @@ CSS-фреймворк *[bootstrap](https://getbootstrap.com/)*. Пакет оп
 10. [Splide js eng](#splide-js-eng)
 11. [Bootstrap eng](#bootstrap-eng)
 12. [Linters](#linters)
-13. [PHP-Pack](#php-pack)
+13. [PHP-Pack (Beta)](#php-pack)
 
 ## Folder structure
 The project has a structure like:
@@ -292,17 +307,31 @@ Stylelint rules are written in the file ```.stylelintrc.json```; you can specify
 For ESlinter to work, you need to install the official extension ```ESLint``` and write the necessary rules in the file ```eslint.config.mjs```.
 
 ## PHP-Pack
-An pack for PHP was added in version 2.0. The file structure and commands are preserved; for this pack i made a build based on Docker-compose.
-You can download it here - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
 
-A test script `Testing.php` has also been added, which displays `Hello, World!` when the build starts.
+<div style="text-align:center;">
+  <img src="cover.jpg" alt="php cover">
+</div>
+
+The file structure and commands have been changed, in addition to default command, ```fonts``` and ```zip``` remain, the ```dist``` folder has been removed, and the ```app``` folder is used instead. The project is compiled into it during operation.
+
+Added to the ```dev/php/``` folder:
+
+```classes``` - for storing classes.
+
+```interfaces``` - for storing interfaces.
+
+```traits``` - for storing traits.
+
+A test script is written for each component, which runs when the build starts (see the picture). If the script does not work the first time, refresh the screen; if it doesn't work after that - welcome to issue.
+
+For full-fledged work, I made a working circle based on Docker-compose.
+You can download it from the link - *[Docker Pack](https://github.com/Longin89/docker_pack)*.
 
 There are also instructions there.
-The main difference is that docker nginx traffic is redirected to browsec to track changes in real time (similar to html files).
 
 **IMPORTANT!** The PHP pack does not work without a functioning server. I understand this is obvious, but i couldn’t help but mention it.
 
 ## PS
-This is my first pack, I borrowed the idea from *[MaxGraph](https://github.com/maxdenaro)* (I hope he doesn’t mind and thanks to him).
-If possible, the pack will be completed and replenished; please report any problems in issues.
+The pack will be completed as soon as possible; please report any problems in issues.
+
 Peace <3

@@ -1,17 +1,17 @@
-const webpack = require('webpack');
-const path = require('path');
-const BannerPlugin = require('webpack').BannerPlugin;
-const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require("webpack");
+const path = require("path");
+const BannerPlugin = require("webpack").BannerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 
 
 const config = {
-    mode: 'production',
+    mode: "production",
     entry: {
-        main: [/*'./node_modules/@splidejs/splide/dist/js/splide.min.js',*/ './dev/js/components/_vars.js', './dev/js/components/_functions.js', './dev/js/components/main.js']
+        main: [/*'./node_modules/@splidejs/splide/dist/js/splide.min.js',*/ "./dev/js/components/_vars.js", "./dev/js/components/_functions.js", "./dev/js/components/main.js"]
     },
     output: {
-        filename: 'main.bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        filename: "main.bundle.js",
+        path: path.resolve(__dirname, "dist"),
     },
     optimization: {
         minimizer: [new TerserPlugin({
@@ -21,23 +21,23 @@ const config = {
     module: {
         rules: [{
             test: /\.css$/,
-            use: ['style-loader', 'css-loader'],
+            use: ["style-loader", "css-loader"],
         }, ],
     },
 };
 
 const devConfig = {
-    mode: 'development',
+    mode: "development",
     entry: {
         main: [/*'./node_modules/@splidejs/splide/dist/js/splide.min.js',*/ './dev/js/components/_vars.js', './dev/js/components/_functions.js', './dev/js/components/main.js']
     },
     output: {
-        filename: 'main.bundle.js',
+        filename: "main.bundle.js",
         path: path.resolve(__dirname, 'dev'),
         iife: false,
-        libraryExport: 'default'
+        libraryExport: "default"
     },
-    devtool: 'source-map',
+    devtool: "source-map",
     optimization: {
         minimize: false,
     },

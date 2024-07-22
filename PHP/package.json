@@ -1,13 +1,13 @@
 {
   "name": "gulpHP",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Simple gulp-package for web-layout",
   "main": "gulpfile.js",
   "scripts": {
-    "html": "node-w3c-validator -f lint -evH -i ./dev/*.html"
+    "html": "node-w3c-validator -f lint -evH -i ./app/*.php"
   },
   "author": "EvanLongin",
-  "license":"UNLICENSED",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@babel/preset-env": "7.23.9",
     "browser-sync": "3.0.2",
